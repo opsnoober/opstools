@@ -176,10 +176,14 @@ class Repair(object):
         answer = raw_input("确认网卡信息是否正确[Y|N] ? ")
         if answer in ["y","Y"]:
             #with open("interfaces",'w') as f:
-            with open("/etc/network/interfaces",'w') as f:
-                f.writelines(lines)
+            try:
+                with open("/etc/network/interfaces",'w') as f:
+                    f.writelines(lines)
+            except IOError:
+                print("请用sudo权限执行该命令")
+                sys.exit(1)
         else:
-            print("网卡未完成配置")
+            print(running.format("网卡未完成配置"))
         
     def repair_timezone(self):
         '''修改时区'''
