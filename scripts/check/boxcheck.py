@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # author: kuilong.liu
-# desc: 运维黑盒部署自检及修复工具,检查部署完成的系统ip地址及时区,并修复
+# desc: 运维黑盒部署自检及修复工具,检查部署完戰址及时区,并修复
 
 import platform
 import re
@@ -19,6 +19,7 @@ import subprocess
 ok = " \033[1;32m [ok] \033[0m".ljust(20)
 fail = " \033[1;31m [fail] \033[0m".ljust(20)
 running = "\033[1;33m===================={}====================\033[0m"
+error = "\033[1;31m===================={}====================\033[0m"
 
 def banner():
     print("*"*50)
@@ -134,10 +135,21 @@ class Check(object):
         return timez 
 
     def check_hw_date(self):
-        '''检查硬件时钟'''
-        sub = subprocess.Popen('sudo hwclock',shell=True,stdout=subprocess.PIPE)
-        hw_date_delta = abs(float(sub.communicate()[0].split()[-2]))
+        '''检查硬件时钟与系统时间差'''
+#        sub = subprocess.Popen('sudo hwclock',shell=True,stdout=subprocess.PIPE)
+#        hw_date_delta = abs(float(sub.communicate()[0].split()[-2]))
+#        return hw_date_delta
+        #获取系统硬件时间 UTC
+        with open("/proc/driver/rtc") as f:
+            rtc_time = f.readline().split()[2]
+            rtc_date = f.readline().split()[2]
+        hw_str = rtc_date + ' ' + rtc_time
+        rtc_datetime = datetime.datetime.strptime(hw_str, "%Y-%m-%d %H:%M:%S")
+        #获取系统时间 UTC 
+        sys_datetime = datetime.datetime.utcnow()
+        hw_date_delta = abs(sys_datetime - rtc_datetime).seconds
         return hw_date_delta
+        
 
 class Repair(object):
     '''修复类'''
@@ -180,7 +192,7 @@ class Repair(object):
                 with open("/etc/network/interfaces",'w') as f:
                     f.writelines(lines)
             except IOError:
-                print("请用sudo权限执行该命令")
+                print(error.format("请用sudo权限执行该命令"))
                 sys.exit(1)
         else:
             print(running.format("网卡未完成配置"))
@@ -254,3 +266,4 @@ if __name__ == "__main__":
         start()
     else:
         start()
+
