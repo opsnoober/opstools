@@ -62,7 +62,10 @@ def get_ifname():
     for i in mach_list:
         j = i.split(":")[1].strip()
         net_list.append(j)
-    return net_list
+    if len(net_list)<=2:
+        return net_list
+    else:
+        return net_list[0:2]
 
 def get_ip_addr(ifname):
     '''获取指定网卡的ip地址'''
@@ -172,13 +175,13 @@ class Repair(object):
             #print "netmask {}".format(netmask)
             lines.append("auto {}\n".format(ifname))
             lines.append("iface {} inet static\n".format(ifname))
-            lines.append("address {}\n".format(ip))
-            lines.append("netmask {}\n".format(netmask))
             if ifname in ["em2","eno2","eth1"]:
-                print ""
-                lines.append("\n")
+                lines.append("address 192.168.253.1\n")
+                lines.append("netmask 255.255.255.0\n")
+                #lines.append("\n")
             else:
-                #print "gateway {}\n".format(gateway)
+                lines.append("address {}\n".format(ip))
+                lines.append("netmask {}\n".format(netmask))
                 lines.append("gateway {}\n".format(gateway))
                 lines.append("dns-nameservers {}\n".format(dns))
                 lines.append("\n")
