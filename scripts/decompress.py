@@ -13,6 +13,9 @@ import zipfile
 import os
 import sys
 
+def usage():
+    print("usage: decompress.py file_name[.tar.gz|.zip]")
+
 def un_tar(file_name):
     tar = tarfile.open(file_name)
     names = tar.getnames()
@@ -37,6 +40,9 @@ def un_zip(file_name):
     
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        usage()
+        sys.exit(1)
     file_name = sys.argv[-1]
     if file_name.endswith("tar.gz"):
         un_tar(file_name)

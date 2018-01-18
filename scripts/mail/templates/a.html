@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<div class="layout">
+		<div class="head"> 资源已分配</div>
+		<div class="main">
+			<div class="div1">
+				<table class="host_table" cellpadding="0" cellspacing="0">
+		            <tr>
+		            	<th>IP</th>
+		            	<th>Username</th>
+		            	<th>Password</th>
+		            	<th>OS</th>
+		            	<th>配置(cpu/内存/磁盘)</th>
+		            	<th>服务器类型</th>
+		            	<th>用途</th>
+		            	<th>管理员</th>
+		            	<th>使用部门</th>
+		            	<th>截止日期</th>
+		            </tr>
+		            {% for i in result %}
+		            <tr>
+		   				<td>{{i[0]}}</td>
+		   				<td>{{i[1]}}</td>
+		   				<td>{{i[2]}}</td>
+		   				<td>{{i[3]}}</td>
+		   				<td>{{i[4]}}C/{{i[5]}}G/{{i[6]}}G</td>
+		   				<td>{{i[7]}}</td>
+		   				<td>{{i[8]}}</td>
+		   				<td>{{i[9]}}</td>
+		   				<td>{{i[10]}}</td>
+		   				<td><span>{{i[11]}}</span></td>
+		            </tr>
+		            {% endfor %}
+	        	</table>
+        	</div>
+		</div>
+	</div>
+</body>
+<style type="text/css">
+    body{
+    	margin:0;
+    	padding:0;
+    	font-family: Microsoft Yahei, Tahoma, Arial;
+        color: #333333;
+        background-color: #fff;
+        font-size: 14px;
+    }
+    .head{
+    	background:#abcdef;
+    	height:100px;
+    	width: 1024px;
+    	margin: 0 auto;
+    	text-align: center;
+    	line-height: 100px;
+    	font-size:30px;
+    }
+    .main{
+    	background:#eee; 
+    	height:552px;
+    	width:1024px;
+    	margin:0 auto;
+    	text-align: center;
+    	padding-top: 30px;
+    }
+/*    .div1{
+    	background-color: #eee;
+    }*/
+/*    .host_table{
+    	margin: 0 auto;
+    }*/
+    .deadline{
+    	color: red;
+    }
+
+    table,th,td{
+    	margin: 0 auto;
+    	border: solid 1px;
+    }
+    table{
+    	width: 100%;
+    }
+    th,td{
+    	height: 40px;
+	}
+	th{
+		background-color: skyblue;
+	}
+	td{
+		background-color: #fedbca;
+	}
+</style>
+</html>
