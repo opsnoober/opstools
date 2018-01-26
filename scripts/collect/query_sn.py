@@ -9,6 +9,7 @@ __author__ = "kuilong.liu"
 import subprocess
 import shlex
 import sys
+import os
 import traceback
 import argparse
 
@@ -21,6 +22,7 @@ class Server(object):
         self.port = 22
         self.os = None
         self.sn = None
+        self.env = os.environ.copy()["ANSIBLE_HOST_KEY_CHECKING"] = False # 首次连接不需要输入yes
 
     def genInventory(self):
         hosts_info = '{} ansible_ssh_port={} ansible_ssh_user={} ansible_ssh_pass={} ansible_sudo_pass={}'.format(self.ip,self.port,self.username,self.password,self.password)

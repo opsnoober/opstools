@@ -1,0 +1,2 @@
+[remote]
+172.16.35.175 ansible_ssh_port=22 ansible_ssh_user=secneo ansible_ssh_pass=phy@u7i8o9p0 ansible_sudo_pass=phy@u7i8o9p0
