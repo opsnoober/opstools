@@ -62,8 +62,8 @@ def get_ifname():
     for i in mach_list:
         j = i.split(":")[1].strip()
         net_list.append(j)
-    if len(net_list)<=2:
-        return net_list
+    if len(net_list)<2:
+        return net_list[0]
     else:
         return net_list[0:2]
 
